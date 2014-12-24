@@ -35,3 +35,8 @@ class Task(models.Model):
     task_date = models.DateTimeField('date')
     task_type = models.CharField(max_length=50, choices=TYPE_CHOICES, default=MISC_ISSUE)
     task_votes = modesl.IntegerField(default=0)
+
+class IssueComment(models.Model):
+    item = models.ForeignKey(Issue)
+    comment_text = models.CharField(max_length=1000)
+    votes = models.IntegerField(default=0)
