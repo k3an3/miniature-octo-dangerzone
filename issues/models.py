@@ -52,3 +52,10 @@ class IssueComment(models.Model):
     issue = models.ForeignKey(Issue)
     comment_text = models.CharField(max_length=1000)
     votes = models.IntegerField(default=0)
+
+class TaskComment(models.Model):
+    def __str__(self):
+        return comment_text
+    issue = models.ForeignKey(Task)
+    comment_text = models.CharField(max_length=1000)
+    votes = models.IntegerField(default=0)
