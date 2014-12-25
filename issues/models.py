@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 TYPE_CHOICES = (
     ('Suggestion', 'Suggestion'),
@@ -22,6 +23,10 @@ STATUS_CHOICES = (
     )
 
 class Issue(models.Model):
+    def __str__(self):
+        return self.issue_title
+    def is_new(self):
+        return self.issue_status == 'New'
     issue_title = models.CharField(max_length=50)
     issue_description = models.CharField(max_length=1000)
     issue_date = models.DateTimeField('date')
@@ -31,6 +36,10 @@ class Issue(models.Model):
     issue_votes = models.IntegerField(default=0)
 
 class Task(models.Model):
+    def __str__(self):
+        return task_title;
+    def is_new(self):
+        return self.task_date >= timezone.now() - datetime.timedelta(days=3)
     task_title = models.CharField(max_length=50)
     task_description = models.CharField(max_length=1000)
     task_date = models.DateTimeField('date')
@@ -38,6 +47,8 @@ class Task(models.Model):
     task_votes = models.IntegerField(default=0)
 
 class IssueComment(models.Model):
-    item = models.ForeignKey(Issue)
+    def __str__(self):
+        return comment_text
+    issue = models.ForeignKey(Issue)
     comment_text = models.CharField(max_length=1000)
     votes = models.IntegerField(default=0)
