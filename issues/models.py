@@ -1,40 +1,41 @@
 from django.db import models
 
+TYPE_CHOICES = (
+    ('Suggestion', 'Suggestion'),
+    ('Editing Issue', 'Editing Issue'),
+    ('Mix Issue', 'Mix Issue'),
+    ('Timing Issue', 'Timing Issue'),
+    ('Pitch Issue', 'Pitch Issue'),
+    ('Misc.', 'Misc.'),
+)
+SEVERITY_CHOICES = (
+    ('Trivial', 'Trivial'),
+    ('Minor', 'Minor'),
+    ('Major', 'Major'),
+    ('Severe', 'Severe'),
+)
+STATUS_CHOICES = (
+    ('New', 'New'),
+    ('Ack', 'Acknowledged'),
+    ('Pro', 'Fix Proposed'),
+    ('Fix', 'Fixed'),
+    )
+
 class Issue(models.Model):
-    TYPE_CHOICES = (
-        (SUGGESTION, 'Suggestion'),
-        (EDIT_DEFECT, 'Editing Issue'),
-        (MIX_ISSUE, 'Mix Issue'),
-        (TIMING_ISSUE, 'Timing Issue'),
-        (PITCH_ISSUE, 'Pitch Issue'),
-        (MISC_ISSUE, 'Misc.'),
-    )
-    SEVERITY_CHOICES = (
-        (TRIVIAL, 'Trivial'),
-        (MINOR, 'Minor'),
-        (MAJOR, 'Major'),
-        (SEVERE, 'Severe'),
-    )
-    STATUS_CHOICES = (
-        (NEW, 'New'),
-        (ACK, 'Acknowledged'),
-        (PRO, 'Fix Proposed'),
-        (FIX, 'Fixed'),
-        )
     issue_title = models.CharField(max_length=50)
     issue_description = models.CharField(max_length=1000)
     issue_date = models.DateTimeField('date')
-    issue_type = models.CharField(max_length=100, choices=TYPE_CHOICES, default=SUGGESTION)
-    issue_severity = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default=TRIVIAL)
-    issue_status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default=NEW)
+    issue_type = models.CharField(max_length=100, choices=TYPE_CHOICES, default='Suggestion')
+    issue_severity = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default='Trivial')
+    issue_status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default='New')
     issue_votes = models.IntegerField(default=0)
 
 class Task(models.Model):
     task_title = models.CharField(max_length=50)
     task_description = models.CharField(max_length=1000)
     task_date = models.DateTimeField('date')
-    task_type = models.CharField(max_length=50, choices=TYPE_CHOICES, default=MISC_ISSUE)
-    task_votes = modesl.IntegerField(default=0)
+    task_type = models.CharField(max_length=50, choices=TYPE_CHOICES, default='Misc')
+    task_votes = models.IntegerField(default=0)
 
 class IssueComment(models.Model):
     item = models.ForeignKey(Issue)
