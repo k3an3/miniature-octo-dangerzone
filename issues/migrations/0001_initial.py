@@ -32,7 +32,18 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('comment_text', models.CharField(max_length=1000)),
                 ('votes', models.IntegerField(default=0)),
-                ('item', models.ForeignKey(to='issues.Issue')),
+                ('issue', models.ForeignKey(to='issues.Issue')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Song',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('song_title', models.CharField(default=b'All', max_length=50)),
+                ('song_notes', models.CharField(default=b'None', max_length=200)),
             ],
             options={
             },
@@ -51,5 +62,23 @@ class Migration(migrations.Migration):
             options={
             },
             bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='TaskComment',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('comment_text', models.CharField(max_length=1000)),
+                ('votes', models.IntegerField(default=0)),
+                ('issue', models.ForeignKey(to='issues.Task')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='issue',
+            name='song',
+            field=models.ForeignKey(to='issues.Song'),
+            preserve_default=True,
         ),
     ]

@@ -22,11 +22,18 @@ STATUS_CHOICES = (
     ('Fix', 'Fixed'),
     )
 
+class Song(models.Model):
+    def __str__(self):
+        return self.song_title
+    song_title = models.CharField(max_length=50, default='')
+    song_notes = models.CharField(max_length=200, default='None')
+
 class Issue(models.Model):
     def __str__(self):
         return self.issue_title
     def is_new(self):
         return self.issue_status == 'New'
+    is_new.boolean = True
     issue_title = models.CharField(max_length=50)
     issue_description = models.CharField(max_length=1000)
     issue_date = models.DateTimeField('date')
@@ -34,6 +41,7 @@ class Issue(models.Model):
     issue_severity = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default='Trivial')
     issue_status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default='New')
     issue_votes = models.IntegerField(default=0)
+    song = models.ForeignKey(Song)
 
 class Task(models.Model):
     def __str__(self):
@@ -59,3 +67,4 @@ class TaskComment(models.Model):
     issue = models.ForeignKey(Task)
     comment_text = models.CharField(max_length=1000)
     votes = models.IntegerField(default=0)
+
