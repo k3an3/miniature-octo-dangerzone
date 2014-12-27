@@ -6,6 +6,35 @@
 
 </header>
 <div class='list'>
+<div class="issueTableList" >
+                <table >
+                    <tr>
+                        <td>Title</td>
+                        <td>Description</td>
+						<td>Type</td>
+						<td>Priority</td>
+						<td>Status</td>
+						<td>Date</td>
+                    </tr>
+					{% if issue_recent_list %}
+						{% for issue in issue_recent_list %}
+							<tr>
+								<td><a href="{% url 'issues:detail' issue.id %}">{{ issue.issue_title}}</a></td>
+								<td>{{ issue.issue_description }}</td>
+								<td>{{ issue.issue_type }}</td>
+								<td>{{ issue.issue_severity }}</td>
+								<td>{{ issue.issue_status }}</td>
+								<td>{{ issue.issue_date }}</td>
+							</tr>   
+						{% endfor %}
+					{% else %}
+						<tr>
+							<td><strong>There are no issues. Yay!</strong></td>
+						</tr>
+					{% endif %}
+                </table>
+            </div>
+            
 {% if issue_recent_list %}
     <ul>
         {% for issue in issue_recent_list %}

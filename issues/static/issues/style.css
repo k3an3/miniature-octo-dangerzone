@@ -2,15 +2,95 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,900);
 @font-face{font-family:'FontAwesome';src:url('font/fontawesome-webfont.eot?v=4.0.1');src:url('font/fontawesome-webfont.eot?#iefix&v=4.0.1') format('embedded-opentype'),url('font/fontawesome-webfont.woff?v=4.0.1') format('woff'),url('font/fontawesome-webfont.ttf?v=4.0.1') format('truetype'),url('font/fontawesome-webfont.svg?v=4.0.1#fontawesomeregular') format('svg');font-weight:normal;font-style:normal}
 
-.header {
 
+body,input,textarea,select {
+		font-family: 'Source Sans Pro', sans-serif;
+		font-weight: 300;
+		font-size: 18pt;
+		line-height: 1.75em;
+		color: #39454b;
+		letter-spacing: 0.5px;
+}
+	
+.top {
+	float:left;
+	width:960px;
+	padding:0px 20px 0px 20px;
+	height:151px;
+	border-bottom:1px solid #555555;
 }
 
 .list {
-
+	float:left;
+	width:960px;
+	background-color:#111;
+	padding:20px 20px 40px 20px;
+	line-height:18px;
+	border-bottom:1px solid #555555;
 }
 
 .right {
+	float:left;
+	width:651px;
+	margin:0px 30px 0px 0px;
+}
 
+.issueTableList {
+	margin:0px;padding:0px;
+	width:100%;
+	border:1px solid #000000;
+}
 
+.issueTableList table {
+    border-collapse: collapse;
+        border-spacing: 0;
+	width:100%;
+	height:100%;
+}
+
+.issueTableList tr:nth-child(odd) { background-color:#b5d4fc; }
+.issueTableList tr:nth-child(even)    { background-color:#ffffff; }
+.issueTableList td{
+	vertical-align:middle;	
+	border:1px solid #000000;
+	border-width:0px 1px 1px 0px;
+	text-align:left;
+	padding:12px;
+	font-size:10px;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight:normal;
+	color:#000000;
+}.issueTableList tr:last-child td{
+	border-width:0px 1px 0px 0px;
+}.issueTableList tr td:last-child{
+	border-width:0px 0px 1px 0px;
+}.issueTableList tr:last-child td:last-child{
+	border-width:0px 0px 0px 0px;
+}
+.issueTableList tr:first-child td{
+		background:-o-linear-gradient(bottom, #00b6ff 5%, #0012bc 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #00b6ff), color-stop(1, #0012bc) );
+	background:-moz-linear-gradient( center top, #00b6ff 5%, #0012bc 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#00b6ff", endColorstr="#0012bc");	background: -o-linear-gradient(top,#00b6ff,0012bc);
+
+	background-color:#00b6ff;
+	border:0px solid #000000;
+	text-align:center;
+	border-width:0px 0px 1px 1px;
+	font-size:14px;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight:bold;
+	color:#ffffff;
+}
+.issueTableList tr:first-child:hover td{
+	background:-o-linear-gradient(bottom, #00b6ff 5%, #0012bc 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #00b6ff), color-stop(1, #0012bc) );
+	background:-moz-linear-gradient( center top, #00b6ff 5%, #0012bc 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#00b6ff", endColorstr="#0012bc");	background: -o-linear-gradient(top,#00b6ff,0012bc);
+
+	background-color:#00b6ff;
+}
+.issueTableList tr:first-child td:first-child{
+	border-width:0px 0px 1px 0px;
+}
+.issueTableList tr:first-child td:last-child{
+	border-width:0px 0px 1px 1px;
 }
