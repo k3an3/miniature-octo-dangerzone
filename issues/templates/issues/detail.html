@@ -1,0 +1,15 @@
+<h1>{{ issue.issue_title }}</h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<div class='detail'>
+    <p>Date submitted: {{ issue.issue_date }}</p>
+    <p>Type: {{ issue.issue_type }}</p>
+    <p>Severity: {{ issue.issue_severity }}</p>
+    <p>Status: {{ issue.issue_status }}</p>
+    <div class='description'><p>Description: {{ issue.issue_description }}</p></div>
+    <p>Votes: {{ issue.issue_votes }}</p>
+</div>
+<form action="{% url 'issues:vote' issue.id %}" method="post">
+    {% csrf_token %}
+    <input type='submit' name='voteup' value='Vote Up'>
+    <input type='submit' name='votedown' value='Vote Down'>
+</form>
