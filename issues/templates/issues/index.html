@@ -2,49 +2,55 @@
 <link rel="stylesheet" type="text/css" href="{% static 'issues/style.css' %}"/>
 <body>
 <header id='header'>
-
-
+    <div class='top'>
+        <ul>
+            <li><a href="{% url 'issues:index' %}">Issues</a></li>
+            <li><a href="{% url 'issues:task_index' %}">Tasks</a></li>
+        </ul>
+    </div>
 </header>
-<div class='list'>
+<div class="list">
 <div class="issueTableList" >
                 <table >
                     <tr>
                         <td>Title</td>
                         <td>Description</td>
-						<td>Type</td>
-						<td>Priority</td>
-						<td>Status</td>
-						<td>Date</td>
+                        <td>Type</td>
+                        <td>Priority</td>
+                        <td>Status</td>
+                        <td>Date</td>
                     </tr>
-					{% if issue_recent_list %}
-						{% for issue in issue_recent_list %}
-							<tr>
-								<td><a href="{% url 'issues:detail' issue.id %}">{{ issue.issue_title}}</a></td>
-								<td>{{ issue.issue_description }}</td>
-								<td>{{ issue.issue_type }}</td>
-								<td>{{ issue.issue_severity }}</td>
-								<td>{{ issue.issue_status }}</td>
-								<td>{{ issue.issue_date }}</td>
-							</tr>   
-						{% endfor %}
-					{% else %}
-						<tr>
-							<td><strong>There are no issues. Yay!</strong></td>
-						</tr>
-					{% endif %}
+                    {% if issue_recent_list %}
+                        {% for issue in issue_recent_list %}
+                            <tr>
+                            <td><a href="{% url 'issues:detail' issue.id %}">{{ issue.issue_title}}</a></td>
+                            <td>{{ issue.issue_description }}</td>
+                            <td>{{ issue.issue_type }}</td>
+                                <td>{{ issue.issue_severity }}</td>
+                                <td>{{ issue.issue_status }}</td>
+                                <td>{{ issue.issue_date }}</td>
+                            </tr>
+                        {% endfor %}
+                     {% elif task_recent_list %}
+                        {% for task in task_recent_list %}
+                            <tr>
+                            <td><a href="{% url 'issues:detail' task.id %}">{{ task.task_title}}</a></td>
+                            <td>{{ task.issue_description }}</td>
+                            <td>{{ task.issue_type }}</td>
+                                <td>{{ task.issue_severity }}</td>
+                                <td>{{ task.issue_status }}</td>
+                                <td>{{ task.issue_date }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td><strong>There is nothing here. Yay!</strong></td>
+                        </tr>
+                    {% endif %}
                 </table>
-            </div>
-            
-{% if issue_recent_list %}
-    <ul>
-        {% for issue in issue_recent_list %}
-        <li><a href="{% url 'issues:detail' issue.id %}">{{ issue.issue_title}}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>There are no issues. Yay!</p>
-    {% endif %}
 </div>
+</div>
+
 <div class='right'>
 </div>
 </body>

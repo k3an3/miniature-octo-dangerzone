@@ -45,7 +45,7 @@ class Issue(models.Model):
 
 class Task(models.Model):
     def __str__(self):
-        return task_title;
+        return self.task_title;
     def is_new(self):
         return self.task_date >= timezone.now() - datetime.timedelta(days=3)
     task_title = models.CharField(max_length=50)
