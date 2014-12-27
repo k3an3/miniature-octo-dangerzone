@@ -1,3 +1,11 @@
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'issues/style.css' %}"/>
+
+<div class='header'>
+
+
+</div>
+<div class='list'>
 {% if issue_recent_list %}
     <ul>
         {% for issue in issue_recent_list %}
@@ -7,3 +15,6 @@
 {% else %}
     <p>There are no issues. Yay!</p>
     {% endif %}
+</div>
+<div class='right'>
+</div>
