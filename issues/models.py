@@ -42,6 +42,7 @@ class Issue(models.Model):
     status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default='New')
     votes = models.IntegerField(default=0)
     song = models.ForeignKey(Song)
+    seconds = models.IntegerField(default=0)
 
 class Task(models.Model):
     def __str__(self):

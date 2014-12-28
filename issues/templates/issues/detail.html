@@ -1,15 +1,29 @@
-<h1>{{ issue.issue_title }}</h1>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'issues/style.css' %}"/>
+<body>
+<header id='header'>
+    <img src="{% static 'issues/images/mod.png' %}"/>
+    <div class='top'>
+        <ul>
+            <a href="{% url 'issues:index' %}"><li>Issues</li></a>
+            <a href="{% url 'issues:task_index' %}"><li>Tasks</li></a>
+        </ul>
+    </div>
+</header>
+<div class='details'>
+<h3>{{ issue.title }}</h3>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <div class='detail'>
-    <p>Date submitted: {{ issue.issue_date }}</p>
-    <p>Type: {{ issue.issue_type }}</p>
-    <p>Severity: {{ issue.issue_severity }}</p>
-    <p>Status: {{ issue.issue_status }}</p>
-    <div class='description'><p>Description: {{ issue.issue_description }}</p></div>
-    <p>Votes: {{ issue.issue_votes }}</p>
+    <p>Date submitted: {{ issue.date }}</p>
+    <p>Type: {{ issue.type }}</p>
+    <p>Severity: {{ issue.severity }}</p>
+    <p>Status: {{ issue.status }}</p>
+    <div class='description'><p>Description: {{ issue.description }}</p></div>
+    <p>Votes: {{ issue.votes }}</p>
 </div>
 <form action="{% url 'issues:vote' issue.id %}" method="post">
     {% csrf_token %}
     <input type='submit' name='voteup' value='Vote Up'>
     <input type='submit' name='votedown' value='Vote Down'>
 </form>
+</div>

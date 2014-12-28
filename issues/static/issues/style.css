@@ -6,9 +6,9 @@
 body,input,textarea,select {
 		font-family: 'Source Sans Pro', sans-serif;
 		font-weight: 300;
-		font-size: 18pt;
+		font-size: 14pt;
 		line-height: 1.75em;
-		color: #39454b;
+		color: #000000;
 		letter-spacing: 0.5px;
 }
 
@@ -90,7 +90,7 @@ body,input,textarea,select {
 	border-width:0px 0px 1px 1px;
 }
 .top {
-    float: right;
+    float: left;
    	width:960px;
 	  padding:0px 20px 0px 20px;
 }
@@ -129,19 +129,21 @@ body,input,textarea,select {
 
 .top li.active {
     float: left;
-    height:100px;
+    height: 100px;
     margin-top: 1px;
     background: 200;
     background-repeat: repeat-x;
 }
 
 #header {
-    float:left;
-  #  width:1000px;
- #   height:183px;
-    border-bottom:1px solid #555555;
+    float: left;
+    border-bottom: 1px solid #555555;
 }
 
 #header img {
-    float:left;
+    float: left;
+}
+
+.detail {
+     float: left;
 }
