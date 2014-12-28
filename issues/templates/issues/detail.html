@@ -1,5 +1,8 @@
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'issues/style.css' %}"/>
+<head>
+    <title>View Issue Detail</title>
+</head>
 <body>
 <header id='header'>
     <img src="{% static 'issues/images/mod.png' %}"/>
@@ -15,15 +18,26 @@
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <div class='detail'>
     <p>Date submitted: {{ issue.date }}</p>
-    <p>Type: {{ issue.type }}</p>
+    <p>Type: {{ issue.typeof }}</p>
     <p>Severity: {{ issue.severity }}</p>
     <p>Status: {{ issue.status }}</p>
+    {% if issue.song.title != 'General' %}
+    <p>Song: {{ issue.song.title }}</p>
+    {% endif %}
     <div class='description'><p>Description: {{ issue.description }}</p></div>
-    <p>Votes: {{ issue.votes }}</p>
-</div>
 <form action="{% url 'issues:vote' issue.id %}" method="post">
     {% csrf_token %}
     <input type='submit' name='voteup' value='Vote Up'>
     <input type='submit' name='votedown' value='Vote Down'>
 </form>
+<p>Votes: {{ issue.votes }}</p>
+<p>Time: {{ issue.timecode }}</p>
+{% if issue.song.url != '' %}
+<audio controls>
+  <source src="{{ issue.song.url }}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+{% endif %}
 </div>
+</div>
+</body>

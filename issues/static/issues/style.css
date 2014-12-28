@@ -17,7 +17,6 @@ body,input,textarea,select {
 	width:960px;
 	padding:20px 20px 40px 20px;
 	line-height:18px;
-#	border-bottom:1px solid #555555;
 }
 
 .right {
@@ -110,6 +109,7 @@ body,input,textarea,select {
 .top li {
     float: left;
     width: 125px;
+    height: 50px;
     margin-top: 1px;
     text-align: left;
     font-size: 17px;
@@ -122,6 +122,7 @@ body,input,textarea,select {
 .top li:hover {
     float: left;
     margin-top: 1px;
+    background:url('images/tab_hover.png');
     background-repeat: no-repeat;
     list-style-type: none;
     padding: 0px 10px;
@@ -137,7 +138,6 @@ body,input,textarea,select {
 
 #header {
     float: left;
-    border-bottom: 1px solid #555555;
 }
 
 #header img {
@@ -145,5 +145,18 @@ body,input,textarea,select {
 }
 
 .detail {
-     float: left;
+
+
+}
+
+.details {
+    float:left;
+	  width:960px;
+	  padding:20px 20px 40px 20px;
+	  line-height:18px;
+    border: 1px solid #555555;
+}
+
+#footer {
+
 }

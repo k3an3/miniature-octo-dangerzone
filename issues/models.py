@@ -24,15 +24,20 @@ STATUS_CHOICES = (
 
 class Song(models.Model):
     def __str__(self):
-        return self.song_title
+        return self.title
     title = models.CharField(max_length=50, default='')
     notes = models.CharField(max_length=200, default='None')
+    url = models.CharField(max_length=500, default='')
 
 class Issue(models.Model):
     def __str__(self):
         return self.title
     def is_new(self):
         return self.status == 'New'
+    def timecode(self):
+        minutes = self.seconds / 60
+        seconds = self.seconds % 60
+        return "%d:%02d" % (minutes, seconds)
     is_new.boolean = True
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=1000)
