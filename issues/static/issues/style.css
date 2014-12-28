@@ -91,32 +91,40 @@ body,input,textarea,select {
 }
 .top {
     float: right;
-    height: 100px;
-#    margin: 0px;
-#   padding: 0px;
-   list-style-type: none;
+   	width:960px;
+	  padding:0px 20px 0px 20px;
 }
-.top {
-#	float:left;
-	width:960px;
-	padding:0px 20px 0px 20px;
-	height:151px;
-# border-bottom:1px solid #555555;
+
+.top a {
+  text-decoration: none;
+}
+
+.top a:link {
+    color: #0000FF;
+}
+
+.top a:visited {
+    color: #0000FF;
 }
 
 .top li {
     float: left;
-    height: 100px;
+    width: 125px;
     margin-top: 1px;
-    background:0;
+    text-align: left;
+    font-size: 17px;
+    background:url('images/tab.png');
+    background-repeat: no-repeat;
+    list-style-type: none;
+    padding: 0px 10px;
 }
 
 .top li:hover {
     float: left;
-    height: 100px;
     margin-top: 1px;
-    background: 100;
-    background-repeat: repeat-x;
+    background-repeat: no-repeat;
+    list-style-type: none;
+    padding: 0px 10px;
 }
 
 .top li.active {
@@ -127,13 +135,13 @@ body,input,textarea,select {
     background-repeat: repeat-x;
 }
 
-.header {
+#header {
     float:left;
-    width:1000px;
-    height:183px;
+  #  width:1000px;
+ #   height:183px;
     border-bottom:1px solid #555555;
 }
 
-.header img {
+#header img {
     float:left;
 }

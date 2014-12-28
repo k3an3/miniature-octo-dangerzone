@@ -10,16 +10,19 @@ class CommentInTask(admin.TabularInline):
     extra = 0
 
 class IssueAdmin(admin.ModelAdmin):
-    list_display = ('issue_title', 'issue_description', 'issue_date', 'is_new')
+    list_display = ('title', 'description', 'date', 'is_new')
     inlines = [CommentInIssue]
-    list_filter = ['issue_date', 'issue_type', 'issue_severity', 'song']
-    search_fields = ['issue_title', 'issue_description']
+    list_filter = ['date', 'typeof', 'severity', 'song']
+    search_fields = ['title', 'description']
+
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('task_title', 'task_description', 'task_date')
+    list_display = ('title', 'description', 'date')
     inlines = [CommentInTask]
+    list_filter = ['date', 'typeof']
+    search_fields = ['title', 'description']
 
 class SongAdmin(admin.ModelAdmin):
-    list_display = ('song_title', 'song_notes')
+    list_display = ('title', 'notes')
 
 admin.site.register(Issue, IssueAdmin)
 admin.site.register(Task, TaskAdmin)

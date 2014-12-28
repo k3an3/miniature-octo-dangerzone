@@ -2,10 +2,11 @@
 <link rel="stylesheet" type="text/css" href="{% static 'issues/style.css' %}"/>
 <body>
 <header id='header'>
+    <img src="{% static 'issues/images/mod.png' %}"/>
     <div class='top'>
         <ul>
-            <li><a href="{% url 'issues:index' %}">Issues</a></li>
-            <li><a href="{% url 'issues:task_index' %}">Tasks</a></li>
+            <a href="{% url 'issues:index' %}"><li>Issues</li></a>
+            <a href="{% url 'issues:task_index' %}"><li>Tasks</li></a>
         </ul>
     </div>
 </header>
@@ -23,23 +24,23 @@
                     {% if issue_recent_list %}
                         {% for issue in issue_recent_list %}
                             <tr>
-                            <td><a href="{% url 'issues:detail' issue.id %}">{{ issue.issue_title}}</a></td>
-                            <td>{{ issue.issue_description }}</td>
-                            <td>{{ issue.issue_type }}</td>
-                                <td>{{ issue.issue_severity }}</td>
-                                <td>{{ issue.issue_status }}</td>
-                                <td>{{ issue.issue_date }}</td>
+                                <td><a href="{% url 'issues:detail' issue.id %}">{{ issue.title}}</a></td>
+                                <td>{{ issue.description }}</td>
+                                <td>{{ issue.typeof }}</td>
+                                <td>{{ issue.severity }}</td>
+                                <td>{{ issue.status }}</td>
+                                <td>{{ issue.date }}</td>
                             </tr>
                         {% endfor %}
                      {% elif task_recent_list %}
                         {% for task in task_recent_list %}
                             <tr>
-                            <td><a href="{% url 'issues:detail' task.id %}">{{ task.task_title}}</a></td>
-                            <td>{{ task.issue_description }}</td>
-                            <td>{{ task.issue_type }}</td>
-                                <td>{{ task.issue_severity }}</td>
-                                <td>{{ task.issue_status }}</td>
-                                <td>{{ task.issue_date }}</td>
+                                <td><a href="{% url 'issues:detail' task.id %}">{{ task.title}}</a></td>
+                                <td>{{ task.description }}</td>
+                                <td>{{ task.typeof }}</td>
+                                <td>{{ task.priority }}</td>
+                                <td>{{ task.status }}</td>
+                                <td>{{ task.date }}</td>
                             </tr>
                         {% endfor %}
                     {% else %}

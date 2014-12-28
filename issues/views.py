@@ -10,14 +10,14 @@ class IndexView(generic.ListView):
     context_object_name = 'issue_recent_list'
 
     def get_queryset(self):
-        return Issue.objects.order_by('-issue_date')[:25]
+        return Issue.objects.order_by('-date')[:25]
 
 class TaskIndexView(generic.ListView):
     template_name = 'issues/index.html'
     context_object_name = 'task_recent_list'
 
     def get_queryset(self):
-        return Task.objects.order_by('-task_date')[:25]
+        return Task.objects.order_by('-date')[:25]
 
 class DetailView(generic.DetailView):
     model = Issue

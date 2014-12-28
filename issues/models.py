@@ -25,46 +25,48 @@ STATUS_CHOICES = (
 class Song(models.Model):
     def __str__(self):
         return self.song_title
-    song_title = models.CharField(max_length=50, default='')
-    song_notes = models.CharField(max_length=200, default='None')
+    title = models.CharField(max_length=50, default='')
+    notes = models.CharField(max_length=200, default='None')
 
 class Issue(models.Model):
     def __str__(self):
-        return self.issue_title
+        return self.title
     def is_new(self):
-        return self.issue_status == 'New'
+        return self.status == 'New'
     is_new.boolean = True
-    issue_title = models.CharField(max_length=50)
-    issue_description = models.CharField(max_length=1000)
-    issue_date = models.DateTimeField('date')
-    issue_type = models.CharField(max_length=100, choices=TYPE_CHOICES, default='Suggestion')
-    issue_severity = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default='Trivial')
-    issue_status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default='New')
-    issue_votes = models.IntegerField(default=0)
+    title = models.CharField(max_length=50)
+    description = models.CharField(max_length=1000)
+    date = models.DateTimeField('date')
+    typeof = models.CharField(max_length=100, choices=TYPE_CHOICES, default='Suggestion')
+    severity = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default='Trivial')
+    status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default='New')
+    votes = models.IntegerField(default=0)
     song = models.ForeignKey(Song)
 
 class Task(models.Model):
     def __str__(self):
-        return self.task_title;
+        return self.title;
     def is_new(self):
-        return self.task_date >= timezone.now() - datetime.timedelta(days=3)
-    task_title = models.CharField(max_length=50)
-    task_description = models.CharField(max_length=1000)
-    task_date = models.DateTimeField('date')
-    task_type = models.CharField(max_length=50, choices=TYPE_CHOICES, default='Misc')
-    task_votes = models.IntegerField(default=0)
+        return self.date >= timezone.now() - datetime.timedelta(days=3)
+    title = models.CharField(max_length=50)
+    description = models.CharField(max_length=1000)
+    date = models.DateTimeField('date')
+    typeof = models.CharField(max_length=50, choices=TYPE_CHOICES, default='Misc')
+    status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default='Pro')
+    votes = models.IntegerField(default=0)
+    priority = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default='Trivial')
 
 class IssueComment(models.Model):
     def __str__(self):
-        return comment_text
+        return self.text
     issue = models.ForeignKey(Issue)
-    comment_text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1000)
     votes = models.IntegerField(default=0)
 
 class TaskComment(models.Model):
     def __str__(self):
-        return comment_text
-    issue = models.ForeignKey(Task)
-    comment_text = models.CharField(max_length=1000)
+        return self.text
+    task = models.ForeignKey(Task)
+    text = models.CharField(max_length=1000)
     votes = models.IntegerField(default=0)
 
