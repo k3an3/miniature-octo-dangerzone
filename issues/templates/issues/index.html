@@ -10,21 +10,23 @@
         <ul>
             <a href="{% url 'issues:index' %}"><li>Issues</li></a>
             <a href="{% url 'issues:task_index' %}"><li>Tasks</li></a>
+            <a href="{% url 'issues:song_index' %}"><li>Songs</li></a>
         </ul>
     </div>
 </header>
 <div class="list">
 <div class="issueTableList" >
-                <table >
-                    <tr>
-                        <td>Title</td>
-                        <td>Description</td>
-                        <td>Type</td>
-                        <td>Priority</td>
-                        <td>Status</td>
-                        <td>Date</td>
-                    </tr>
-                    {% if issue_recent_list %}
+                <table>
+                      {% if issue_recent_list %}
+                            <tr>
+                                <td>Title</td>
+                                <td>Description</td>
+                                <td>Type</td>
+                                <td>Priority</td>
+                                <td>Status</td>
+                                <td>Date</td>
+                                <td>User</td>
+                            </tr>
                         {% for issue in issue_recent_list %}
                             <tr>
                                 <td><a href="{% url 'issues:detail' issue.id %}">{{ issue.title}}</a></td>
@@ -33,17 +35,41 @@
                                 <td>{{ issue.severity }}</td>
                                 <td>{{ issue.status }}</td>
                                 <td>{{ issue.date }}</td>
+                                <td>{{ issue.postedby }}</td>
                             </tr>
                         {% endfor %}
                      {% elif task_recent_list %}
+                            <tr>
+                                <td>Title</td>
+                                <td>Description</td>
+                                <td>Type</td>
+                                <td>Priority</td>
+                                <td>Status</td>
+                                <td>Date</td>
+                                <td>User</td>
+                            </tr>
                         {% for task in task_recent_list %}
                             <tr>
-                                <td><a href="{% url 'issues:detail' task.id %}">{{ task.title}}</a></td>
+                                <td><a href="{% url 'issues:task_detail' task.id %}">{{ task.title}}</a></td>
                                 <td>{{ task.description }}</td>
                                 <td>{{ task.typeof }}</td>
                                 <td>{{ task.priority }}</td>
                                 <td>{{ task.status }}</td>
                                 <td>{{ task.date }}</td>
+                                <td>{{ task.postedby }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% elif song_recent_list %}
+                            <tr>
+                                <td>Title</td>
+                                <td>Notes</td>
+                                <td>URL</td>
+                            </tr>
+                        {% for song in song_recent_list %}
+                            <tr>
+                                <td><a href="{% url 'issues:song_details' %} ">{{ song.title }}</a></td>
+                                <td>{{ song.notes }}</td>
+                                <td><a href="{{ song.url }}">Link</a></td>
                             </tr>
                         {% endfor %}
                     {% else %}

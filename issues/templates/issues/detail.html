@@ -17,14 +17,15 @@
 <h3>{{ issue.title }}</h3>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <div class='detail'>
-    <p>Date submitted: {{ issue.date }}</p>
-    <p>Type: {{ issue.typeof }}</p>
-    <p>Severity: {{ issue.severity }}</p>
-    <p>Status: {{ issue.status }}</p>
+    <p>Submitted by: <i>{{ issue.postedby }}</i></p>
+    <p>Date submitted: <i>{{ issue.date }}</i></p>
+    <p>Type: <i>{{ issue.typeof }}</i></p>
+    <p>Severity: <i>{{ issue.severity }}</i></p>
+    <p>Status: <i>{{ issue.status }}</i></p>
     {% if issue.song.title != 'General' %}
-    <p>Song: {{ issue.song.title }}</p>
+        <p>Song: <i>{{ issue.song.title }}</i></p>
     {% endif %}
-    <div class='description'><p>Description: {{ issue.description }}</p></div>
+    <div class='description'><p>Description: <i>{{ issue.description }}</i></p></div>
 <form action="{% url 'issues:vote' issue.id %}" method="post">
     {% csrf_token %}
     <input type='submit' name='voteup' value='Vote Up'>

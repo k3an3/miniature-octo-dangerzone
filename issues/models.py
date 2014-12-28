@@ -48,6 +48,7 @@ class Issue(models.Model):
     votes = models.IntegerField(default=0)
     song = models.ForeignKey(Song)
     seconds = models.IntegerField(default=0)
+    postedby = models.CharField(max_length=30, default='nobody')
 
 class Task(models.Model):
     def __str__(self):
@@ -61,6 +62,7 @@ class Task(models.Model):
     status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default='Pro')
     votes = models.IntegerField(default=0)
     priority = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default='Trivial')
+    postedby = models.CharField(max_length=30, default='nobody')
 
 class IssueComment(models.Model):
     def __str__(self):
@@ -68,6 +70,7 @@ class IssueComment(models.Model):
     issue = models.ForeignKey(Issue)
     text = models.CharField(max_length=1000)
     votes = models.IntegerField(default=0)
+    postedby = models.CharField(max_length=30, default='nobody')
 
 class TaskComment(models.Model):
     def __str__(self):
@@ -75,4 +78,5 @@ class TaskComment(models.Model):
     task = models.ForeignKey(Task)
     text = models.CharField(max_length=1000)
     votes = models.IntegerField(default=0)
+    postedby = models.CharField(max_length=30, default='nobody')
 
