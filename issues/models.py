@@ -17,9 +17,9 @@ SEVERITY_CHOICES = (
 )
 STATUS_CHOICES = (
     ('New', 'New'),
-    ('Ack', 'Acknowledged'),
-    ('Pro', 'Fix Proposed'),
-    ('Fix', 'Fixed'),
+    ('Acknowledged', 'Acknowledged'),
+    ('Fix Proposed', 'Fix Proposed'),
+    ('Fixed', 'Fixed'),
     )
 
 class Song(models.Model):
