@@ -67,7 +67,7 @@
                             </tr>
                         {% for song in song_recent_list %}
                             <tr>
-                                <td><a href="{% url 'issues:song_details' %} ">{{ song.title }}</a></td>
+                                <td><a href="{% url 'issues:index' %} ">{{ song.title }}</a></td>
                                 <td>{{ song.notes }}</td>
                                 <td><a href="{{ song.url }}">Link</a></td>
                             </tr>

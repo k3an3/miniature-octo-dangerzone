@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-
+import datetime
 from issues.models import Issue, Task, Song
 
 class IndexView(generic.ListView):
@@ -38,6 +38,15 @@ class SongDetailView(generic.DetailView):
     model = Song
     template_name = 'issues/song_detail.html'
 
+class IssueCreate(generic.CreateView):
+    model = Issue
+    fields = ['title', 'typeof', 'severity', 'song', 'seconds', 'description']
+    template_name = 'issues/newissue.html'
+
+    def form_valid(self, form):
+        form.instance.date = datetime.datetime.now()
+        return super(IssueCreate, self).form_valid(form)
+
 def vote(request, issue_id):
     issue = get_object_or_404(Issue, pk=issue_id)
     if request.POST.get('voteup', False):
@@ -46,3 +55,6 @@ def vote(request, issue_id):
         issue.votes -= 1
     issue.save()
     return HttpResponseRedirect(reverse('issues:detail', args=(issue.id,)))
+
+def newIssue(request):
+    return HttpResponseRedirect(reverse('issues:index'))

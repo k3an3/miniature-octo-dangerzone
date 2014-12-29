@@ -10,6 +10,7 @@
         <ul>
             <a href="{% url 'issues:index' %}"><li>Issues</li></a>
             <a href="{% url 'issues:task_index' %}"><li>Tasks</li></a>
+            <a href="{% url 'issues:song_index' %}"><li>Songs</li></a>
         </ul>
     </div>
 </header>
@@ -34,10 +35,14 @@
 <p>Votes: {{ issue.votes }}</p>
 <p>Time: {{ issue.timecode }}</p>
 {% if issue.song.url != '' %}
-<audio controls>
+<audio controls id="song">
   <source src="{{ issue.song.url }}" type="audio/mpeg">
     Your browser does not support the audio element.
 </audio>
+<script>
+    var clip = document.getElementById("song");
+    clip.currentTime={{ issue.seconds }};
+</script>
 {% endif %}
 </div>
 </div>

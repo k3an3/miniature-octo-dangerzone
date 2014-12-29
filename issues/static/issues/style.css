@@ -157,6 +157,10 @@ body,input,textarea,select {
     border: 1px solid #555555;
 }
 
+.new {
+  line-height: 45px;
+}
+
 #footer {
 
 }
