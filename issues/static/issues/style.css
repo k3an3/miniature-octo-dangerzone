@@ -19,6 +19,9 @@ body,input,textarea,select {
 	line-height:18px;
 }
 
+.list a {
+  text-decoration: none;
+}
 .right {
 	float:left;
 	width:651px;

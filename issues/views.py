@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 import datetime
 from issues.models import Issue, Task, Song
+from issues.forms import IssueForm
 
 class IndexView(generic.ListView):
     template_name = 'issues/index.html'
@@ -41,11 +42,25 @@ class SongDetailView(generic.DetailView):
 class IssueCreate(generic.CreateView):
     model = Issue
     fields = ['title', 'typeof', 'severity', 'song', 'seconds', 'description']
-    template_name = 'issues/newissue.html'
+    template_name = 'issues/new.html'
 
     def form_valid(self, form):
         form.instance.date = datetime.datetime.now()
         return super(IssueCreate, self).form_valid(form)
+
+class TaskCreate(generic.CreateView):
+    model = Task
+    fields = ['title', 'typeof', 'priority', 'description']
+    template_name = 'issues/new.html'
+
+    def form_valid(self, form):
+        form.instance.date = datetime.datetime.now()
+        return super(IssueCreate, self).form_valid(form)
+
+class SongCreate(generic.CreateView):
+    model = Song
+    fields = ['title', 'notes', 'url']
+    template_name = 'issues/new.html'
 
 def vote(request, issue_id):
     issue = get_object_or_404(Issue, pk=issue_id)

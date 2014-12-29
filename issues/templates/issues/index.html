@@ -40,7 +40,7 @@
                             </tr>
                         {% endfor %}
                      {% elif task_recent_list %}
-                            <a href="{% url 'issues:new_issue' %}">New Task</a>
+                            <a href="{% url 'issues:new_task' %}">New Task</a>
                             <div class="issueTableList" >
                             <table>
                             <tr>
@@ -64,8 +64,8 @@
                             </tr>
                         {% endfor %}
                     {% elif song_recent_list %}
-                            <a href="{% url 'issues:new_issue' %}">New Song</a>
-                            <div class="issueTableList" >
+                            <a href="{% url 'issues:new_song' %}">New Song</a>
+                            <div class="issueTableList">
                             <table>
                             <tr>
                                 <td>Title</td>
@@ -74,7 +74,7 @@
                             </tr>
                         {% for song in song_recent_list %}
                             <tr>
-                                <td><a href="{% url 'issues:index' %} ">{{ song.title }}</a></td>
+                                <td><a href="{% url 'issues:song_detail' song.id %} ">{{ song.title }}</a></td>
                                 <td>{{ song.notes }}</td>
                                 <td><a href="{{ song.url }}">Link</a></td>
                             </tr>
