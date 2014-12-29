@@ -33,11 +33,15 @@ class DetailView(generic.DetailView):
 
 class TaskDetailView(generic.DetailView):
     model = Task
-    template_name = 'issues/task_detail.html'
+    template_name = 'issues/detail.html'
 
 class SongDetailView(generic.DetailView):
     model = Song
-    template_name = 'issues/song_detail.html'
+    template_name = 'issues/detail.html'
+    context_object_name = 'issue_list'
+
+    def get_queryset(self):
+        return Issue.objects.filter(title='RARKAS').order_by('-date')[:25]
 
 class IssueCreate(generic.CreateView):
     model = Issue

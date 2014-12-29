@@ -9,6 +9,10 @@ class CommentInTask(admin.TabularInline):
     model = TaskComment
     extra = 0
 
+class IssueInSong(admin.TabularInline):
+    model = Issue
+    extra = 10
+
 class IssueAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'date', 'is_new')
     inlines = [CommentInIssue]
@@ -23,6 +27,7 @@ class TaskAdmin(admin.ModelAdmin):
 
 class SongAdmin(admin.ModelAdmin):
     list_display = ('title', 'notes')
+    inlines = [IssueInSong]
 
 admin.site.register(Issue, IssueAdmin)
 admin.site.register(Task, TaskAdmin)
