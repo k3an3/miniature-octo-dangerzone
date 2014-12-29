@@ -55,6 +55,3 @@ def vote(request, issue_id):
         issue.votes -= 1
     issue.save()
     return HttpResponseRedirect(reverse('issues:detail', args=(issue.id,)))
-
-def newIssue(request):
-    return HttpResponseRedirect(reverse('issues:index'))

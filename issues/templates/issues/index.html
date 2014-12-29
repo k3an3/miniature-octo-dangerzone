@@ -15,9 +15,10 @@
     </div>
 </header>
 <div class="list">
-<div class="issueTableList" >
-                <table>
-                      {% if issue_recent_list %}
+                       {% if issue_recent_list %}
+                            <a href="{% url 'issues:new_issue' %}">New Issue</a>
+                            <div class="issueTableList" >
+                            <table>
                             <tr>
                                 <td>Title</td>
                                 <td>Description</td>
@@ -39,6 +40,9 @@
                             </tr>
                         {% endfor %}
                      {% elif task_recent_list %}
+                            <a href="{% url 'issues:new_issue' %}">New Task</a>
+                            <div class="issueTableList" >
+                            <table>
                             <tr>
                                 <td>Title</td>
                                 <td>Description</td>
@@ -60,6 +64,9 @@
                             </tr>
                         {% endfor %}
                     {% elif song_recent_list %}
+                            <a href="{% url 'issues:new_issue' %}">New Song</a>
+                            <div class="issueTableList" >
+                            <table>
                             <tr>
                                 <td>Title</td>
                                 <td>Notes</td>
