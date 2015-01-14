@@ -36,23 +36,24 @@
                 <p>Song: <i>{{ issue.song.title }}</i></p>
             {% endif %}
             <div class='description'><p>Description: <i>{{ issue.description }}</i></p></div>
+            <p>Time: {{ issue.timecode }}</p>
+            {% if issue.song.url != '' %}
+                <audio controls id="song">
+                    <source src="{{ issue.song.url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            <script>
+                var clip = document.getElementById("song");
+                clip.currentTime={{ issue.seconds }};
+            </script>
+            {% endif %}
         <form action="{% url 'issues:vote' issue.id %}" method="post">
             {% csrf_token %}
-            <input type='submit' name='voteup' value='Vote Up'>
-            <input type='submit' name='votedown' value='Vote Down'>
+            <p>{{ issue.upvotes }}
+            <input type='submit' class='upvote' name='voteup' value='+'>
+            {{ issue.downvotes }}
+            <input type='submit' class='downvote' name='votedown' value='-'></p>
         </form>
-        <p>Votes: {{ issue.votes }}</p>
-        <p>Time: {{ issue.timecode }}</p>
-        {% if issue.song.url != '' %}
-        <audio controls id="song">
-          <source src="{{ issue.song.url }}" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-        <script>
-            var clip = document.getElementById("song");
-            clip.currentTime={{ issue.seconds }};
-        </script>
-        {% endif %}
 {% elif task %}
         <h3>{{ task.title }}</h3>
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}

@@ -152,12 +152,48 @@ body,input,textarea,select {
 
 }
 
+.upvote {
+    background:url('images/like.png');
+    background-repeat: no-repeat;
+    background-color: none;
+    cursor: pointer;
+    outline: 0;
+    width: 42px;
+    height: 53px;
+    border: 0px;
+    background-position:  0px 6px;
+}
+
+.upvote:hover{
+  background-position:  0px -52px;
+}
+
+.downvote {
+    background:url('images/dislike.png');
+    background-repeat: no-repeat;
+    background-color: none;
+    cursor: pointer;
+    outline: 0;
+    width: 42px;
+    height: 53px;
+    border: 0px;
+    background-position:  0px 15px;
+}
+
+.downvote:hover{
+  background-position:  0px -52px;
+}
+
 .details {
     float:left;
 	  width:960px;
 	  padding:20px 20px 40px 20px;
 	  line-height:18px;
     border: 1px solid #555555;
+}
+
+.details form input {
+    font-size: 14px
 }
 
 .new {

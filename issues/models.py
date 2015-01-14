@@ -45,7 +45,8 @@ class Issue(models.Model):
     typeof = models.CharField(max_length=100, choices=TYPE_CHOICES, default='Suggestion')
     severity = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default='Trivial')
     status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default='New')
-    votes = models.IntegerField(default=0)
+    upvotes = models.IntegerField(default=0)
+    downvotes = models.IntegerField(default=0)
     song = models.ForeignKey(Song)
     seconds = models.IntegerField(default=0)
     postedby = models.CharField(max_length=30, default='nobody')
@@ -60,7 +61,8 @@ class Task(models.Model):
     date = models.DateTimeField('date')
     typeof = models.CharField(max_length=50, choices=TYPE_CHOICES, default='Misc')
     status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default='Pro')
-    votes = models.IntegerField(default=0)
+    upvotes = models.IntegerField(default=0)
+    downvotes = models.IntegerField(default=0)
     priority = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default='Trivial')
     postedby = models.CharField(max_length=30, default='nobody')
 
@@ -69,7 +71,8 @@ class IssueComment(models.Model):
         return self.text
     issue = models.ForeignKey(Issue)
     text = models.CharField(max_length=1000)
-    votes = models.IntegerField(default=0)
+    upvotes = models.IntegerField(default=0)
+    downvotes = models.IntegerField(default=0)
     postedby = models.CharField(max_length=30, default='nobody')
 
 class TaskComment(models.Model):
