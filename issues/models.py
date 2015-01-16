@@ -51,6 +51,13 @@ class Issue(models.Model):
     seconds = models.IntegerField(default=0)
     postedby = models.CharField(max_length=30, default='nobody')
 
+    class Meta:
+        permissions = (
+            ("view_task", "Can see available tasks"),
+            ("change_status", "Can change the status of tasks"),
+            ("close_task", "Can remove a task by setting its status as closed"),
+        )
+
 class Task(models.Model):
     def __str__(self):
         return self.title;

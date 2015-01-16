@@ -56,6 +56,7 @@
             {{ issue.downvotes }}
             <input type='submit' class='downvote' name='votedown' value='-'></p>
         </form>
+
 {% elif task %}
         <h3>{{ task.title }}</h3>
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}

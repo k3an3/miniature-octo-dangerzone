@@ -46,7 +46,6 @@ class IssueCreate(generic.CreateView):
     fields = ['title', 'typeof', 'severity', 'song', 'seconds', 'description']
     template_name = 'issues/new.html'
 
-    #@permission_required('issues.can_vote')
     def form_valid(self, form):
         form.instance.date = datetime.datetime.now()
         form.instance.postedby = self.user

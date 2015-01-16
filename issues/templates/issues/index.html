@@ -42,8 +42,9 @@
                             </tr>
                         {% endfor %}
                      {% elif task_recent_list %}
-                            <a href="{% url 'issues:new_task' %}">New Task</a>
-                            <div class="issueTableList" >
+                            {% if user.is_staff %}
+                            <a href="{% url 'issues:new_task' %}">New Task</a>{% endif %}
+                            <div class="issueTableList">
                             <table>
                             <tr>
                                 <td>Title</td>
