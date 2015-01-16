@@ -13,6 +13,8 @@
             <a href="{% url 'issues:song_index' %}"><li>Songs</li></a>
         </ul>
     </div>
+    Welcome, {{ user }}!
+    <a href="{% url 'issues:logout' %}">Logout</a>
 </header>
 <div class="list">
                        {% if issue_recent_list %}

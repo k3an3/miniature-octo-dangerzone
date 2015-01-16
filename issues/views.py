@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 import datetime
 from issues.models import Issue, Task, Song
 from issues.forms import IssueForm
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth import authenticate
 
 class IndexView(generic.ListView):
     template_name = 'issues/index.html'
@@ -38,18 +40,16 @@ class TaskDetailView(generic.DetailView):
 class SongDetailView(generic.DetailView):
     model = Song
     template_name = 'issues/detail.html'
-    context_object_name = 'issue_list'
-
-    def get_queryset(self):
-        return Issue.objects.filter(title='RARKAS').order_by('-date')[:25]
 
 class IssueCreate(generic.CreateView):
     model = Issue
     fields = ['title', 'typeof', 'severity', 'song', 'seconds', 'description']
     template_name = 'issues/new.html'
 
+    #@permission_required('issues.can_vote')
     def form_valid(self, form):
         form.instance.date = datetime.datetime.now()
+        form.instance.postedby = self.user
         return super(IssueCreate, self).form_valid(form)
 
 class TaskCreate(generic.CreateView):
@@ -57,9 +57,10 @@ class TaskCreate(generic.CreateView):
     fields = ['title', 'typeof', 'priority', 'description']
     template_name = 'issues/new.html'
 
+    @permission_required('user.can_create')
     def form_valid(self, form):
         form.instance.date = datetime.datetime.now()
-        return super(IssueCreate, self).form_valid(form)
+        return super(TaskCreate, self).form_valid(form)
 
 class SongCreate(generic.CreateView):
     model = Song
@@ -67,10 +68,13 @@ class SongCreate(generic.CreateView):
     template_name = 'issues/new.html'
 
 def vote(request, issue_id):
-    issue = get_object_or_404(Issue, pk=issue_id)
-    if request.POST.get('voteup', False):
-        issue.upvotes += 1
-    elif request.POST.get('votedown', False):
-        issue.downvotes += 1
-    issue.save()
-    return HttpResponseRedirect(reverse('issues:detail', args=(issue.id,)))
+    if request.user.is_authenticated() and request.user.has_perm('issues.can_vote'):
+        issue = get_object_or_404(Issue, pk=issue_id)
+        if request.POST.get('voteup', False):
+            issue.upvotes += 1
+        elif request.POST.get('votedown', False):
+            issue.downvotes += 1
+        issue.save()
+        return HttpResponseRedirect(reverse('issues:detail', args=(issue.id,)))
+    else:
+        return HttpResponse("You can't vote in this poll.")
