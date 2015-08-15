@@ -5,7 +5,7 @@
 </head>
 <body>
 <header id='header'>
-    <img src="{% static 'issues/images/mod.png' %}"/>
+    <a href="{% url 'issues:index' %}"><img src="{% static 'issues/images/mod.png' %}"/></a>
     <div class='top'>
         <ul>
             <a href="{% url 'issues:index' %}"><li>Issues</li></a>
@@ -25,6 +25,7 @@
                                 <td>Title</td>
                                 <td>Description</td>
                                 <td>Type</td>
+                                <td>Song</td>
                                 <td>Priority</td>
                                 <td>Status</td>
                                 <td>Date</td>
@@ -35,6 +36,7 @@
                                 <td><a href="{% url 'issues:detail' issue.id %}">{{ issue.title}}</a></td>
                                 <td>{{ issue.description }}</td>
                                 <td>{{ issue.typeof }}</td>
+                                <td>{{ issue.song }}</td>
                                 <td>{{ issue.severity }}</td>
                                 <td>{{ issue.status }}</td>
                                 <td>{{ issue.date }}</td>

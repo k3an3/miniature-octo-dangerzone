@@ -12,6 +12,12 @@
     Detail</title>
 </head>
 <body>
+<script>
+    window.onload = function() {
+        var clip = document.getElementById("song");
+        clip.currentTime={{ issue.seconds }};
+    };
+</script>
 <header id='header'>
     <img src="{% static 'issues/images/mod.png' %}"/>
     <div class='top'>
@@ -44,10 +50,6 @@
                     <source src="{{ issue.song.url }}" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
-            <script>
-                var clip = document.getElementById("song");
-                clip.currentTime={{ issue.seconds }};
-            </script>
             {% endif %}
         <form action="{% url 'issues:vote' issue.id %}" method="post">
             {% csrf_token %}

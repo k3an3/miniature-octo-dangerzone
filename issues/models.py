@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 TYPE_CHOICES = (
     ('Suggestion', 'Suggestion'),
@@ -21,23 +22,41 @@ STATUS_CHOICES = (
     ('Fix Proposed', 'Fix Proposed'),
     ('Fixed', 'Fixed'),
     )
+VOTE_CHOICES = (
+    ('up', 'up'),
+    ('down', 'down'),
+    )
+ROLE_CHOICES = (
+    ('reporter', 'Reporter'),
+    ('editor', 'Editor'),
+    )
+
+
+class SiteUser(models.Model):
+    user = models.ForeignKey(User)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
 class Song(models.Model):
     def __str__(self):
         return self.title
+
     title = models.CharField(max_length=50, default='')
     notes = models.CharField(max_length=200, default='None')
     url = models.CharField(max_length=500, default='')
 
+
 class Issue(models.Model):
     def __str__(self):
         return self.title
+
     def is_new(self):
         return self.status == 'New'
+
     def timecode(self):
         minutes = self.seconds / 60
         seconds = self.seconds % 60
         return "%d:%02d" % (minutes, seconds)
+
     is_new.boolean = True
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=1000)
@@ -49,20 +68,16 @@ class Issue(models.Model):
     downvotes = models.IntegerField(default=0)
     song = models.ForeignKey(Song)
     seconds = models.IntegerField(default=0)
-    postedby = models.CharField(max_length=30, default='nobody')
+    reporter = models.CharField(max_length=30, default='nobody')
 
-    class Meta:
-        permissions = (
-            ("view_task", "Can see available tasks"),
-            ("change_status", "Can change the status of tasks"),
-            ("close_task", "Can remove a task by setting its status as closed"),
-        )
 
 class Task(models.Model):
     def __str__(self):
         return self.title;
+
     def is_new(self):
         return self.date >= timezone.now() - datetime.timedelta(days=3)
+
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=1000)
     date = models.DateTimeField('date')
@@ -73,20 +88,31 @@ class Task(models.Model):
     priority = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default='Trivial')
     postedby = models.CharField(max_length=30, default='nobody')
 
+
 class IssueComment(models.Model):
     def __str__(self):
         return self.text
+
     issue = models.ForeignKey(Issue)
     text = models.CharField(max_length=1000)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     postedby = models.CharField(max_length=30, default='nobody')
 
+
 class TaskComment(models.Model):
     def __str__(self):
         return self.text
+
     task = models.ForeignKey(Task)
     text = models.CharField(max_length=1000)
     votes = models.IntegerField(default=0)
     postedby = models.CharField(max_length=30, default='nobody')
 
+class Vote(models.Model):
+    def __str__(self):
+        return self.user
+
+    issue = models.ForeignKey(Issue)
+    user = models.ForeignKey(SiteUser)
+    mode = models.CharField(max_length=10, choices=VOTE_CHOICES)
