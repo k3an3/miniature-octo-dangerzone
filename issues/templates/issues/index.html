@@ -1,98 +1,90 @@
+{% extends 'issues/base.html' %}
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'issues/style.css' %}"/>
-<head>
-    <title>MOctoD</title>
-</head>
-<body>
-<header id='header'>
-    <a href="{% url 'issues:index' %}"><img src="{% static 'issues/images/mod.png' %}"/></a>
-    <div class='top'>
-        <ul>
-            <a href="{% url 'issues:index' %}"><li>Issues</li></a>
-            <a href="{% url 'issues:task_index' %}"><li>Tasks</li></a>
-            <a href="{% url 'issues:song_index' %}"><li>Songs</li></a>
-        </ul>
-    </div>
-    Welcome, {{ user }}!
-    <a href="{% url 'issues:logout' %}">Logout</a>
-</header>
+{% block body %}
 <div class="list">
-                       {% if issue_recent_list %}
-                            <a href="{% url 'issues:new_issue' %}">New Issue</a>
-                            <div class="issueTableList" >
-                            <table>
-                            <tr>
-                                <td>Title</td>
-                                <td>Description</td>
-                                <td>Type</td>
-                                <td>Song</td>
-                                <td>Priority</td>
-                                <td>Status</td>
-                                <td>Date</td>
-                                <td>User</td>
-                            </tr>
-                        {% for issue in issue_recent_list %}
-                            <tr>
-                                <td><a href="{% url 'issues:detail' issue.id %}">{{ issue.title}}</a></td>
-                                <td>{{ issue.description }}</td>
-                                <td>{{ issue.typeof }}</td>
-                                <td>{{ issue.song }}</td>
-                                <td>{{ issue.severity }}</td>
-                                <td>{{ issue.status }}</td>
-                                <td>{{ issue.date }}</td>
-                                <td>{{ issue.postedby }}</td>
-                            </tr>
-                        {% endfor %}
-                     {% elif task_recent_list %}
-                            {% if user.is_staff %}
-                            <a href="{% url 'issues:new_task' %}">New Task</a>{% endif %}
-                            <div class="issueTableList">
-                            <table>
-                            <tr>
-                                <td>Title</td>
-                                <td>Description</td>
-                                <td>Type</td>
-                                <td>Priority</td>
-                                <td>Status</td>
-                                <td>Date</td>
-                                <td>User</td>
-                            </tr>
+    {% if issue_recent_list %}
+    <a href="{% url 'issues:new_issue' %}">New Issue</a>
+    <div class="row" >
+        <table class="table">
+            <thead
+                <tr>
+                    <td>Title</td>
+                    <td>Description</td>
+                    <td>Type</td>
+                    <td>Song</td>
+                    <td>Priority</td>
+                    <td>Status</td>
+                    <td>Date</td>
+                    <td>User</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for issue in issue_recent_list %}
+                <tr>
+                    <td><a href="{% url 'issues:detail' issue.id %}">{{ issue.title}}</a></td>
+                    <td style="text-overflow: ellipsis; max-width: 180px;">{{ issue.description }}</td>
+                    <td>{{ issue.typeof }}</td>
+                    <td>{{ issue.song }}</td>
+                    <td>{{ issue.severity }}</td>
+                    <td>{{ issue.status }}</td>
+                    <td>{{ issue.date }}</td>
+                    <td>{{ issue.postedby }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            {% elif task_recent_list %}
+            {% if user.is_staff %}
+            <a href="{% url 'issues:new_task' %}">New Task</a>{% endif %}
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Title</td>
+                            <td>Description</td>
+                            <td>Type</td>
+                            <td>Priority</td>
+                            <td>Status</td>
+                            <td>Date</td>
+                            <td>User</td>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {% for task in task_recent_list %}
-                            <tr>
-                                <td><a href="{% url 'issues:task_detail' task.id %}">{{ task.title}}</a></td>
-                                <td>{{ task.description }}</td>
-                                <td>{{ task.typeof }}</td>
-                                <td>{{ task.priority }}</td>
-                                <td>{{ task.status }}</td>
-                                <td>{{ task.date }}</td>
-                                <td>{{ task.postedby }}</td>
-                            </tr>
+                        <tr>
+                            <td><a href="{% url 'issues:task_detail' task.id %}">{{ task.title}}</a></td>
+                            <td>{{ task.typeof }}</td>
+                            <td>{{ task.priority }}</td>
+                            <td>{{ task.status }}</td>
+                            <td>{{ task.date }}</td>
+                            <td>{{ task.postedby }}</td>
+                        </tr>
                         {% endfor %}
+                    </tbody>
                     {% elif song_recent_list %}
-                            <a href="{% url 'issues:new_song' %}">New Song</a>
-                            <div class="issueTableList">
-                            <table>
+                    <a href="{% url 'issues:new_song' %}">New Song</a>
+                    <div class="issueTableList">
+                        <table>
                             <tr>
                                 <td>Title</td>
                                 <td>Notes</td>
                                 <td>URL</td>
                             </tr>
-                        {% for song in song_recent_list %}
+                            {% for song in song_recent_list %}
                             <tr>
                                 <td><a href="{% url 'issues:song_detail' song.id %} ">{{ song.title }}</a></td>
                                 <td>{{ song.notes }}</td>
                                 <td><a href="{{ song.url }}">Link</a></td>
                             </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td><strong>There is nothing here. Yay!</strong></td>
-                        </tr>
-                    {% endif %}
-                </table>
-</div>
-</div>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td><strong>There is nothing here. Yay!</strong></td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+            </div>
 
-<div class='right'>
-</div>
-</body>
+            <div class='right'>
+            </div>
+            {% endblock %}
