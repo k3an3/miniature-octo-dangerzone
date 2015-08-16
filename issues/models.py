@@ -20,7 +20,7 @@ STATUS_CHOICES = (
     ('New', 'New'),
     ('Acknowledged', 'Acknowledged'),
     ('Fix Proposed', 'Fix Proposed'),
-    ('Fixed', 'Fixed'),
+    ('Resolved', 'Resolved'),
     )
 VOTE_CHOICES = (
     ('up', 'up'),

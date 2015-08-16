@@ -8,14 +8,14 @@
         <table class="table">
             <thead
                 <tr>
-                    <td>Title</td>
-                    <td>Description</td>
-                    <td>Type</td>
-                    <td>Song</td>
-                    <td>Priority</td>
-                    <td>Status</td>
-                    <td>Date</td>
-                    <td>User</td>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Song</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>User</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,66 +25,38 @@
                     <td style="text-overflow: ellipsis; max-width: 180px;">{{ issue.description }}</td>
                     <td>{{ issue.typeof }}</td>
                     <td>{{ issue.song }}</td>
-                    <td>{{ issue.severity }}</td>
-                    <td>{{ issue.status }}</td>
+                    <td><span class="label label-{% if issue.severity == 'Trivial' %}info{% elif issue.severity = 'Minor' %}success{% elif issue.severity == 'Major' %}warning{% elif issue.severity == 'Severe' %}danger{% endif %}">{{ issue.severity }}</span></td>
+                    <td><span class="label label-{% if issue.status == 'Resolved' %}info{% elif issue.status = 'Fix Proposed' %}success{% elif issue.status == 'Acknowledged' %}warning{% elif issue.status == 'New' %}danger{% endif %}">{{ issue.status }}</span></td>
                     <td>{{ issue.date }}</td>
                     <td>{{ issue.postedby }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
-            {% elif task_recent_list %}
-            {% if user.is_staff %}
-            <a href="{% url 'issues:new_task' %}">New Task</a>{% endif %}
-            <div class="row">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <td>Title</td>
-                            <td>Description</td>
-                            <td>Type</td>
-                            <td>Priority</td>
-                            <td>Status</td>
-                            <td>Date</td>
-                            <td>User</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for task in task_recent_list %}
-                        <tr>
-                            <td><a href="{% url 'issues:task_detail' task.id %}">{{ task.title}}</a></td>
-                            <td>{{ task.typeof }}</td>
-                            <td>{{ task.priority }}</td>
-                            <td>{{ task.status }}</td>
-                            <td>{{ task.date }}</td>
-                            <td>{{ task.postedby }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                    {% elif song_recent_list %}
-                    <a href="{% url 'issues:new_song' %}">New Song</a>
-                    <div class="issueTableList">
-                        <table>
-                            <tr>
-                                <td>Title</td>
-                                <td>Notes</td>
-                                <td>URL</td>
-                            </tr>
-                            {% for song in song_recent_list %}
-                            <tr>
-                                <td><a href="{% url 'issues:song_detail' song.id %} ">{{ song.title }}</a></td>
-                                <td>{{ song.notes }}</td>
-                                <td><a href="{{ song.url }}">Link</a></td>
-                            </tr>
-                            {% endfor %}
-                            {% else %}
-                            <tr>
-                                <td><strong>There is nothing here. Yay!</strong></td>
-                            </tr>
-                            {% endif %}
-                        </table>
-                    </div>
+            {% elif song_recent_list %}
+            <a href="{% url 'issues:new_song' %}">New Song</a>
+            <div class="issueTableList">
+                <table>
+                    <tr>
+                        <td>Title</td>
+                        <td>Notes</td>
+                        <td>URL</td>
+                    </tr>
+                    {% for song in song_recent_list %}
+                    <tr>
+                        <td><a href="{% url 'issues:song_detail' song.id %} ">{{ song.title }}</a></td>
+                        <td>{{ song.notes }}</td>
+                        <td><a href="{{ song.url }}">Link</a></td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td><strong>There is nothing here. Yay!</strong></td>
+                    </tr>
+                    {% endif %}
+                </table>
             </div>
+    </div>
 
-            <div class='right'>
-            </div>
-            {% endblock %}
+    <div class='right'>
+    </div>
+    {% endblock %}

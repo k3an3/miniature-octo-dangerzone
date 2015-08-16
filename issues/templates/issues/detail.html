@@ -2,15 +2,7 @@
 {% load staticfiles %}
 <head>
     {% block head %}
-    <title>View
-        {% if issue %}
-        Issue
-        {% elif task %}
-        Task
-        {% elif song %}
-        Song
-        {% endif %}
-        Detail</title>
+    <title>View Detail</title>
     {% endblock %}
 </head>
 {% block body %}
@@ -20,18 +12,6 @@ window.onload = function() {
     clip.currentTime={{ issue.seconds }};
 };
 </script>
-<header id='header'>
-    <img src="{% static 'issues/images/mod.png' %}"/>
-    <div class='top'>
-        <ul>
-            <a href="{% url 'issues:index' %}"><li>Issues</li></a>
-            <a href="{% url 'issues:task_index' %}"><li>Tasks</li></a>
-            <a href="{% url 'issues:song_index' %}"><li>Songs</li></a>
-        </ul>
-    </div>
-    Welcome, {{ user }}!
-    <a href="{% url 'issues:logout' %}">Logout</a>
-</header>
 <div class='details'>
     {% if issue %}
     <h3>{{ issue.title }}</h3>
@@ -60,35 +40,7 @@ window.onload = function() {
             {{ issue.downvotes }}
             <input type='submit' class='downvote' name='votedown' value='-'></p>
         </form>
-
-        {% elif task %}
-        <h3>{{ task.title }}</h3>
-        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-        <div class='detail'>
-            <p>Submitted by: <i>{{ task.postedby }}</i></p>
-            <p>Date submitted: <i>{{ task.date }}</i></p>
-            <p>Type: <i>{{ task.typeof }}</i></p>
-            <p>Severity: <i>{{ task.priority }}</i></p>
-            <p>Status: <i>{{ task.status }}</i></p>
-            <div class='description'><p>Description: <i>{{ task.description }}</i></p></div>
-            <form action="{% url 'issues:vote' task.id %}" method="post">
-                {% csrf_token %}
-                <input type='submit' name='voteup' value='Vote Up'>
-                <input type='submit' name='votedown' value='Vote Down'>
-            </form>
-            {% elif song %}
-            <h3>{{ song.title }}</h3>
-            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-            <div class='detail'>
-                <p>Notes: <i>{{ song.notes }}</i></p>
-                <p>Link: <i><a href="{{ song.url }}">{{ song.url }}</a></i></p>
-                {% if issue.song.url != '' %}
-                <audio controls>
-                    <source src="{{ song.url }}" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-                {% endif %}
-                {% endif %}
-            </div>
-        </div>
-        {% endblock %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

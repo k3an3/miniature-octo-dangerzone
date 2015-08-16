@@ -1,26 +1,17 @@
+{% extends 'issues/base.html' %}
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'issues/style.css' %}"/>
+{% block head %}
 <head>
     <title>New</title>
 </head>
-<body>
-<header id='header'>
-    <img src="{% static 'issues/images/mod.png' %}"/>
-    <div class='top'>
-        <ul>
-            <a href="{% url 'issues:index' %}"><li>Issues</li></a>
-            <a href="{% url 'issues:task_index' %}"><li>Tasks</li></a>
-            <a href="{% url 'issues:song_index' %}"><li>Songs</li></a>
-        </ul>
-    </div>
-</header>
+{% endblock %}
+{% block body %}
 <div class='details'>
-<h3>Create New</h3>
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-<div class='new'>
-<form action="" method="post">
-    {% csrf_token %} {{ form.as_p }}
-    <input type='submit' value='Submit'>
-</form>
-</body>
-</html>
+    <h3>Create New Issue</h3>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <div class='new'>
+        <form action="" method="post">
+            {% csrf_token %} {{ form.as_p }}
+            <input type='submit' value='Submit'>
+        </form>
+        {% endblock %}
