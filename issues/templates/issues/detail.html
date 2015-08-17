@@ -9,7 +9,7 @@
 <script>
 window.onload = function() {
     var clip = document.getElementById("song");
-    clip.currentTime={{ issue.seconds }};
+    clip.currentTime= {{ issue.minutes }} * 60 + {{ issue.seconds }};
 };
 </script>
 <div class='details'>
@@ -17,7 +17,7 @@ window.onload = function() {
     <h3>{{ issue.title }}</h3>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     <div class='detail'>
-        <p>Submitted by: <i>{{ issue.postedby }}</i></p>
+        <p>Submitted by: <i>{{ issue.reporter }}</i></p>
         <p>Date submitted: <i>{{ issue.date }}</i></p>
         <p>Type: <i>{{ issue.typeof }}</i></p>
         <p>Severity: <i>{{ issue.severity }}</i></p>
@@ -26,7 +26,7 @@ window.onload = function() {
         <p>Song: <i>{{ issue.song.title }}</i></p>
         {% endif %}
         <div class='description'><p>Description: <i>{{ issue.description }}</i></p></div>
-        <p>Time: {{ issue.timecode }}</p>
+        <p>Time: {{ issue.minutes }}:{{ issue.seconds }}</p>
         {% if issue.song.url != '' %}
         <audio controls id="song">
             <source src="{{ issue.song.url }}" type="audio/mpeg">

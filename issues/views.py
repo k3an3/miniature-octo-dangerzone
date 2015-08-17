@@ -57,6 +57,11 @@ def delete(request, issue_id):
     issue.delete()
     return redirect('/')
 
+def delete_song(request, song_id):
+    song = get_object_or_404(Song, pk=song_id)
+    song.delete()
+    return redirect('/songs/')
+
 def vote(request, issue_id):
     if request.user.is_authenticated() and request.user.has_perm('issues.can_vote'):
         issue = get_object_or_404(Issue, pk=issue_id)
