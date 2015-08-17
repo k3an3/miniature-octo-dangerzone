@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+import datetime
+
 TYPE_CHOICES = (
     ('Suggestion', 'Suggestion'),
     ('Editing Issue', 'Editing Issue'),
@@ -60,15 +62,16 @@ class Issue(models.Model):
     is_new.boolean = True
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=1000)
-    date = models.DateTimeField('date')
+    date = models.DateTimeField(default=datetime.datetime.now())
     typeof = models.CharField(max_length=100, choices=TYPE_CHOICES, default='Suggestion')
     severity = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default='Trivial')
     status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default='New')
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     song = models.ForeignKey(Song)
+    minutes = models.IntegerField(default=0)
     seconds = models.IntegerField(default=0)
-    reporter = models.CharField(max_length=30, default='nobody')
+    reporter = models.CharField(max_length=30)
 
 
 class Task(models.Model):

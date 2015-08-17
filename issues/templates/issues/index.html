@@ -2,8 +2,9 @@
 {% load staticfiles %}
 {% block body %}
 <div class="list">
+    <a href="{% url 'issues:new_issue' %}"<button type="button" class="btn btn-primary">New Issue</button></a>
+    <a href="{% url 'issues:new_song' %}"><button type="button" class="btn btn-primary">New Song</button></a>
     {% if issue_recent_list %}
-    <a href="{% url 'issues:new_issue' %}">New Issue</a>
     <div class="row" >
         <table class="table">
             <thead
@@ -16,6 +17,9 @@
                     <th>Status</th>
                     <th>Date</th>
                     <th>User</th>
+                    {% if user.is_superuser %}
+                    <th>Actions</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -28,30 +32,38 @@
                     <td><span class="label label-{% if issue.severity == 'Trivial' %}info{% elif issue.severity = 'Minor' %}success{% elif issue.severity == 'Major' %}warning{% elif issue.severity == 'Severe' %}danger{% endif %}">{{ issue.severity }}</span></td>
                     <td><span class="label label-{% if issue.status == 'Resolved' %}info{% elif issue.status = 'Fix Proposed' %}success{% elif issue.status == 'Acknowledged' %}warning{% elif issue.status == 'New' %}danger{% endif %}">{{ issue.status }}</span></td>
                     <td>{{ issue.date }}</td>
-                    <td>{{ issue.postedby }}</td>
+                    <td>{{ issue.reporter }}</td>
+                    {% if user.is_superuser %}
+                    <td><a href="{% url 'issues:delete' issue.id %}"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
             {% elif song_recent_list %}
-            <a href="{% url 'issues:new_song' %}">New Song</a>
             <div class="issueTableList">
-                <table>
-                    <tr>
-                        <td>Title</td>
-                        <td>Notes</td>
-                        <td>URL</td>
-                    </tr>
+                <table class="table">
+                    <thead>
+                        <th>Title</th>
+                        <th>Notes</th>
+                        <th>URL</th>
+                        {% if user.is_superuser %}
+                        <th>Actions</th>
+                        {% endif %}
+                    </thead>
+                    <tbody>
                     {% for song in song_recent_list %}
                     <tr>
                         <td><a href="{% url 'issues:song_detail' song.id %} ">{{ song.title }}</a></td>
                         <td>{{ song.notes }}</td>
                         <td><a href="{{ song.url }}">Link</a></td>
+                        {% if user.is_superuser %}
+                        <td><a href="{% url 'issues:delete_song' song.id %}"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a></td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
+                    </tbody>
                     {% else %}
-                    <tr>
-                        <td><strong>There is nothing here. Yay!</strong></td>
-                    </tr>
+                        <h3>There is nothing here. Yay!</h3>
                     {% endif %}
                 </table>
             </div>

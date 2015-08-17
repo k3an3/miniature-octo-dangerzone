@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
+from django.views.generic.base import View
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 import datetime
@@ -32,18 +33,29 @@ class SongDetailView(generic.DetailView):
 
 class IssueCreate(generic.CreateView):
     model = Issue
-    fields = ['title', 'typeof', 'severity', 'song', 'seconds', 'description']
     template_name = 'issues/new.html'
 
-    def form_valid(self, form):
-        form.instance.date = datetime.datetime.now()
-        form.instance.postedby = self.user
-        return super(IssueCreate, self).form_valid(form)
+    def get(self, request, *args, **kwargs):
+        form = IssueForm()
+        return self.render_to_response({'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = IssueForm(request.POST)
+        if form.is_valid():
+            form.instance.song = Song.objects.get(id=request.POST.get('song'))
+            form.instance.reporter = request.user
+            form.save()
+            return redirect('/')
 
 class SongCreate(generic.CreateView):
     model = Song
     fields = ['title', 'notes', 'url']
     template_name = 'issues/new.html'
+
+def delete(request, issue_id):
+    issue = get_object_or_404(Issue, pk=issue_id)
+    issue.delete()
+    return redirect('/')
 
 def vote(request, issue_id):
     if request.user.is_authenticated() and request.user.has_perm('issues.can_vote'):

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% block head %}
 <head>
-    <title>New</title>
+    <title>Create New Issue | MoD</title>
 </head>
 {% endblock %}
 {% block body %}
@@ -10,8 +10,22 @@
     <h3>Create New Issue</h3>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     <div class='new'>
-        <form action="" method="post">
-            {% csrf_token %} {{ form.as_p }}
-            <input type='submit' value='Submit'>
+    <br>
+        <form id="create_form" action="" method="post">
+            {% csrf_token %} 
+            {{ form.non_field_errors }}
+            {{ form.title.errors }}
+            <p><label for="{{ form.title.id_for_label }}">Title:</label>
+            {{ form.title }}</p>
+            <p><label for="{{ form.song.id_for_label }}">Song:</label>
+            {{ form.song }}</p>
+            <p><label for="{{ form.typeof.id_for_label }}">Type:</label>
+            {{ form.typeof }}</p>
+            <p><label for="{{ form.severity.id_for_label }}">Severity:</label>
+            {{ form.severity }}</p>
+            <p><label for="{{ form.description.id_for_label }}">Description:</label></p>
+            <p>{{ form.description }}</p>
+            <p><label for="{{ form.minutes.id_for_label }}">Location in Song (Optional):</label> {{ form.minutes }}:{{ form.seconds }}</p>
+            <button class="btn btn-primary" type='submit'>Submit</button>
         </form>
         {% endblock %}
