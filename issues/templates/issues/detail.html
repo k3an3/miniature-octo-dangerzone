@@ -6,6 +6,13 @@
     {% endblock %}
 </head>
 {% block body %}
+<script>
+window.onload = function() {
+    var clip = document.getElementById("song");
+    clip.currentTime= {{ issue.minutes }} * 60 + {{ issue.seconds }};
+};
+</script>
+
 <div class='details'>
     {% if issue %}
     <h3>{{ issue.title }}</h3>
@@ -22,12 +29,12 @@
         <div class='description'><p>Description: <i>{{ issue.description }}</i></p></div>
         <p>Time: {{ issue.minutes }}:{{ issue.seconds | stringformat:"02d" }}</p>
         {% if issue.song.url != '' %}
-        <audio controls id="song">
+        <audio style="padding-top:20px;" controls id="song">
             <source src="{{ issue.song.url }}" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
         {% endif %}
-        <form action="{% url 'issues:vote' issue.id %}" method="post">
+        <form style="padding-top:20px;" action="{% url 'issues:vote' issue.id %}" method="post">
             {% csrf_token %}
             <p>{{ issue.upvotes }}
             <button type='submit' title="{% for vote in upvoters %}{{ vote.user.username }} {% endfor %}" class="btn btn-success" name='voteup' value='+'><span class='glyphicon glyphicon-thumbs-up'></span></button>

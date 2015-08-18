@@ -23,7 +23,7 @@
         <script>
 $( document ).ready(function() {
     $('#{{ page }}_nav').addClass('active');
-    $( document ).tooltip();
+    $('.btn').tooltip();
     {% if issue.song %}
     var clip = $("#song");
     clip.currentTime= {{ issue.minutes }} * 60 + {{ issue.seconds }};
