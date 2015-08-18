@@ -35,6 +35,8 @@ ROLE_CHOICES = (
 
 
 class SiteUser(models.Model):
+    def __str__(self):
+        return self.user.username
     user = models.ForeignKey(User)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
@@ -114,8 +116,8 @@ class TaskComment(models.Model):
 
 class Vote(models.Model):
     def __str__(self):
-        return self.user
+        return self.user.username + " | " + self.issue.title
 
     issue = models.ForeignKey(Issue)
-    user = models.ForeignKey(SiteUser)
+    user = models.ForeignKey(User)
     mode = models.CharField(max_length=10, choices=VOTE_CHOICES)

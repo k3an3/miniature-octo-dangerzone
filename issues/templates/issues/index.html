@@ -1,9 +1,17 @@
 {% extends 'issues/base.html' %}
 {% load staticfiles %}
 {% block body %}
+<script>
+$( document ).ready(function() {
+    $('#{{ page }}_nav').addClass('active');
+});
+</script>
 <div class="list">
+    {% if page == 'issues' %}
     <a href="{% url 'issues:new_issue' %}"<button type="button" class="btn btn-primary">New Issue</button></a>
+    {% elif page == 'songs' %}
     <a href="{% url 'issues:new_song' %}"><button type="button" class="btn btn-primary">New Song</button></a>
+    {% endif %}
     {% if issue_recent_list %}
     <div class="row" >
         <table class="table">

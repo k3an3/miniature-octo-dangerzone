@@ -6,12 +6,6 @@
     {% endblock %}
 </head>
 {% block body %}
-<script>
-window.onload = function() {
-    var clip = document.getElementById("song");
-    clip.currentTime= {{ issue.minutes }} * 60 + {{ issue.seconds }};
-};
-</script>
 <div class='details'>
     {% if issue %}
     <h3>{{ issue.title }}</h3>
@@ -26,7 +20,7 @@ window.onload = function() {
         <p>Song: <i>{{ issue.song.title }}</i></p>
         {% endif %}
         <div class='description'><p>Description: <i>{{ issue.description }}</i></p></div>
-        <p>Time: {{ issue.minutes }}:{{ issue.seconds }}</p>
+        <p>Time: {{ issue.minutes }}:{{ issue.seconds | stringformat:"02d" }}</p>
         {% if issue.song.url != '' %}
         <audio controls id="song">
             <source src="{{ issue.song.url }}" type="audio/mpeg">
@@ -36,10 +30,12 @@ window.onload = function() {
         <form action="{% url 'issues:vote' issue.id %}" method="post">
             {% csrf_token %}
             <p>{{ issue.upvotes }}
-            <button type='submit' class="btn btn-success" name='voteup' value='+'><span class='glyphicon glyphicon-thumbs-up'></span></button>
+            <button type='submit' title="{% for vote in upvoters %}{{ vote.user.username }} {% endfor %}" class="btn btn-success" name='voteup' value='+'><span class='glyphicon glyphicon-thumbs-up'></span></button>
             {{ issue.downvotes }}
-            <button type='submit' class="btn btn-danger" name='votedown' value='-'><span class='glyphicon glyphicon-thumbs-down'></span></button></p>
+            <button type='submit' title="{% for vote in downvoters %}{{ vote.user.username }} {% endfor %}"class="btn btn-danger" name='votedown' value='-'><span class='glyphicon glyphicon-thumbs-down'></span></button></p>
         </form>
+        {% else %}
+        <h1>Error. Not Implemented.</h1>
         {% endif %}
     </div>
 </div>

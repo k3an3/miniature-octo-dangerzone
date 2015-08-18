@@ -2,11 +2,12 @@
 {% load staticfiles %}
 {% block head %}
 <head>
-    <title>Create New Issue | MoD</title>
+    <title>Create New {% if page == 'issue' %}Issue{% elif page == 'song' %}Song{% endif %} | MoD</title>
 </head>
 {% endblock %}
 {% block body %}
 <div class='details'>
+    {% if page == 'issues' %}
     <h3>Create New Issue</h3>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     <div class='new'>
@@ -28,4 +29,7 @@
             <p><label for="{{ form.minutes.id_for_label }}">Location in Song (Optional):</label> {{ form.minutes }}:{{ form.seconds }}</p>
             <button class="btn btn-primary" type='submit'>Submit</button>
         </form>
+        {% else %}
+        <h1>Error. Not Implemented.</h1>
+        {% endif %}
         {% endblock %}

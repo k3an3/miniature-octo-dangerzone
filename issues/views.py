@@ -4,7 +4,7 @@ from django.views.generic.base import View
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 import datetime
-from issues.models import Issue, Task, Song
+from issues.models import Issue, Task, Song, Vote, SiteUser
 from issues.forms import IssueForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate
@@ -13,6 +13,11 @@ class IndexView(generic.ListView):
     template_name = 'issues/index.html'
     context_object_name = 'issue_recent_list'
 
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['page'] = 'issues'
+        return context
+
     def get_queryset(self):
         return Issue.objects.order_by('-date')[:25]
 
@@ -20,12 +25,24 @@ class SongIndexView(generic.ListView):
     template_name = 'issues/index.html'
     context_object_name = 'song_recent_list'
 
+    def get_context_data(self, **kwargs):
+        context = super(SongIndexView, self).get_context_data(**kwargs)
+        context['page'] = 'songs'
+        return context
+
     def get_queryset(self):
         return Song.objects.order_by('-title')[:25]
 
 class DetailView(generic.DetailView):
     model = Issue
     template_name = 'issues/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        context['page'] = 'issues'
+        context['upvoters'] = Vote.objects.filter(issue=context['issue'], mode='up')
+        context['downvoters'] = Vote.objects.filter(issue=context['issue'], mode='down')
+        return context
 
 class SongDetailView(generic.DetailView):
     model = Song
@@ -37,7 +54,7 @@ class IssueCreate(generic.CreateView):
 
     def get(self, request, *args, **kwargs):
         form = IssueForm()
-        return self.render_to_response({'form': form})
+        return self.render_to_response({'form': form, 'page': 'issues',})
 
     def post(self, request, *args, **kwargs):
         form = IssueForm(request.POST)
@@ -63,12 +80,29 @@ def delete_song(request, song_id):
     return redirect('/songs/')
 
 def vote(request, issue_id):
-    if request.user.is_authenticated() and request.user.has_perm('issues.can_vote'):
+    if request.user.is_authenticated():
         issue = get_object_or_404(Issue, pk=issue_id)
-        if request.POST.get('voteup', False):
-            issue.upvotes += 1
-        elif request.POST.get('votedown', False):
-            issue.downvotes += 1
+        vote = Vote.objects.filter(user=request.user, issue=issue)
+        if not vote:
+            if request.POST.get('voteup', False):
+                Vote.objects.create(user=request.user, issue=issue, mode='up')
+                issue.upvotes += 1
+            elif request.POST.get('votedown', False):
+                Vote.objects.create(user=request.user, issue=issue, mode='down')
+                issue.downvotes += 1
+        else:
+            vote = vote[0]
+            if vote.mode == 'up':
+                if request.POST.get('votedown', False):
+                    issue.downvotes += 1
+                    issue.upvotes -= 1
+                    vote.mode = 'down'
+            elif vote.mode == 'down':
+                if request.POST.get('voteup', False):
+                    issue.downvotes -= 1
+                    issue.upvotes += 1
+                    vote.mode = 'up'
+            vote.save()
         issue.save()
         return HttpResponseRedirect(reverse('issues:detail', args=(issue.id,)))
     else:
