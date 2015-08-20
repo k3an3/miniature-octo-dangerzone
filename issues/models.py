@@ -76,24 +76,6 @@ class Issue(models.Model):
     reporter = models.CharField(max_length=30)
 
 
-class Task(models.Model):
-    def __str__(self):
-        return self.title;
-
-    def is_new(self):
-        return self.date >= timezone.now() - datetime.timedelta(days=3)
-
-    title = models.CharField(max_length=50)
-    description = models.CharField(max_length=1000)
-    date = models.DateTimeField('date')
-    typeof = models.CharField(max_length=50, choices=TYPE_CHOICES, default='Misc')
-    status = models.CharField(max_length = 50, choices=STATUS_CHOICES, default='Pro')
-    upvotes = models.IntegerField(default=0)
-    downvotes = models.IntegerField(default=0)
-    priority = models.CharField(max_length = 100, choices=SEVERITY_CHOICES, default='Trivial')
-    postedby = models.CharField(max_length=30, default='nobody')
-
-
 class IssueComment(models.Model):
     def __str__(self):
         return self.text
@@ -102,17 +84,9 @@ class IssueComment(models.Model):
     text = models.CharField(max_length=1000)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
-    postedby = models.CharField(max_length=30, default='nobody')
+    user = models.CharField(max_length=100)
+    date = models.DateTimeField(default=datetime.datetime.now())
 
-
-class TaskComment(models.Model):
-    def __str__(self):
-        return self.text
-
-    task = models.ForeignKey(Task)
-    text = models.CharField(max_length=1000)
-    votes = models.IntegerField(default=0)
-    postedby = models.CharField(max_length=30, default='nobody')
 
 class Vote(models.Model):
     def __str__(self):

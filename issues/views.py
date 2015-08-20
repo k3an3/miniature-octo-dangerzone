@@ -4,7 +4,7 @@ from django.views.generic.base import View
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 import datetime
-from issues.models import Issue, Task, Song, Vote, SiteUser
+from issues.models import Issue, Song, Vote, SiteUser, IssueComment
 from issues.forms import IssueForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate
@@ -19,7 +19,7 @@ class IndexView(generic.ListView):
         return context
 
     def get_queryset(self):
-        return Issue.objects.order_by('-date')[:25]
+        return Issue.objects.order_by('-date')
 
 class SongIndexView(generic.ListView):
     template_name = 'issues/index.html'
@@ -42,6 +42,7 @@ class DetailView(generic.DetailView):
         context['page'] = 'issues'
         context['upvoters'] = Vote.objects.filter(issue=context['issue'], mode='up')
         context['downvoters'] = Vote.objects.filter(issue=context['issue'], mode='down')
+        context['comments'] = IssueComment.objects.filter(issue=context['issue']).order_by('-date')
         return context
 
 class SongDetailView(generic.DetailView):
@@ -79,7 +80,18 @@ def delete_song(request, song_id):
     song.delete()
     return redirect('/songs/')
 
-def vote(request, issue_id):
+def comment(request, issue_id):
+    issue = get_object_or_404(Issue, pk=issue_id)
+    IssueComment.objects.create(user=request.user, text=request.POST.get('text'), issue=issue)
+    return redirect('/' + issue_id)
+
+def delete_comment(request, issue_id, comment_id):
+    comment = get_object_or_404(IssueComment, pk=comment_id)
+    comment.delete()
+    return redirect('/' + issue_id)
+
+
+def vote(request, comment_id):
     if request.user.is_authenticated():
         issue = get_object_or_404(Issue, pk=issue_id)
         vote = Vote.objects.filter(user=request.user, issue=issue)

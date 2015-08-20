@@ -41,6 +41,28 @@ window.onload = function() {
             {{ issue.downvotes }}
             <button type='submit' title="{% for vote in downvoters %}{{ vote.user.username }} {% endfor %}"class="btn btn-danger" name='votedown' value='-'><span class='glyphicon glyphicon-thumbs-down'></span></button></p>
         </form>
+        <form style="padding-top:20px;padding-bottom:20px;" action="{% url 'issues:comment' issue.id %}" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <input name="text" type="text" class="form-control" placeholder="Comment on this issue...">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Comment</button>
+                </span>
+            </div>
+        </form>
+        {% for comment in comments %}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {{ comment.text }}
+            </div>
+            <div class="panel-footer">
+                {{ comment.user }} | {{ comment.date }}
+                {% if comment.user == user or user.is_superuser %}
+                <a href="{% url 'issues:delete_comment' issue.id comment.id %}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
         {% else %}
         <h1>Error. Not Implemented.</h1>
         {% endif %}
