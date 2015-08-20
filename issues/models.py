@@ -37,8 +37,10 @@ ROLE_CHOICES = (
 class SiteUser(models.Model):
     def __str__(self):
         return self.user.username
+
     user = models.ForeignKey(User)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    email_notifications = models.BooleanField(default=True)
 
 class Song(models.Model):
     def __str__(self):
@@ -95,3 +97,7 @@ class Vote(models.Model):
     issue = models.ForeignKey(Issue)
     user = models.ForeignKey(User)
     mode = models.CharField(max_length=10, choices=VOTE_CHOICES)
+
+class Subscription(models.Model):
+    issue = models.ForeignKey(Issue)
+    user = models.ForeignKey(User)

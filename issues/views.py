@@ -1,13 +1,17 @@
+import datetime
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.views.generic.base import View
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-import datetime
-from issues.models import Issue, Song, Vote, SiteUser, IssueComment
-from issues.forms import IssueForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+
+from issues.models import *
+from issues.forms import *
+from issues.utils import *
 
 class IndexView(generic.ListView):
     template_name = 'issues/index.html'
@@ -54,7 +58,7 @@ class IssueCreate(generic.CreateView):
     template_name = 'issues/new.html'
 
     def get(self, request, *args, **kwargs):
-        form = IssueForm()
+        form = IssueForm(request.user)
         return self.render_to_response({'form': form, 'page': 'issues',})
 
     def post(self, request, *args, **kwargs):
@@ -63,6 +67,8 @@ class IssueCreate(generic.CreateView):
             form.instance.song = Song.objects.get(id=request.POST.get('song'))
             form.instance.reporter = request.user
             form.save()
+            for user in get_editors():
+                new_issue_email(user.user.first_name, request.POST.get('title'), user.user.email, reverse('issues:detail', args=(form.id)))
             return redirect('/')
 
 class SongCreate(generic.CreateView):
@@ -82,14 +88,16 @@ def delete_song(request, song_id):
 
 def comment(request, issue_id):
     issue = get_object_or_404(Issue, pk=issue_id)
-    IssueComment.objects.create(user=request.user, text=request.POST.get('text'), issue=issue)
+    text = request.POST.get('text')
+    IssueComment.objects.create(user=request.user, text=text, issue=issue)
+    for sub in Subscription.objects.filter(issue=issue):
+        issue_comment_email(sub.user.first_name, issue.title, sub.user.email, reverse('issues:detail', args=(issue.id,)), text)
     return redirect('/' + issue_id)
 
 def delete_comment(request, issue_id, comment_id):
     comment = get_object_or_404(IssueComment, pk=comment_id)
     comment.delete()
     return redirect('/' + issue_id)
-
 
 def vote(request, comment_id):
     if request.user.is_authenticated():

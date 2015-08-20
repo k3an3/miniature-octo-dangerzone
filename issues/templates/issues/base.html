@@ -52,11 +52,9 @@ $( document ).ready(function() {
                         <div class="form-group">
                             Welcome, {{ user }}!
                         </div>
-                        {% if user.is_superuser %}
                         <div class="form-group">
                             <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></button>
                         </div>
-                        {% endif %}
                         <a href="{% url 'issues:logout' %}"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></button></a>
                     </form>
                 </div><!--/.nav-collapse -->

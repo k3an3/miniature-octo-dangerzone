@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.models import User
 from issues.models import *
 
 class CommentInIssue(admin.TabularInline):
@@ -24,3 +25,4 @@ admin.site.register(IssueComment)
 admin.site.register(Song, SongAdmin)
 admin.site.register(Vote)
 admin.site.register(SiteUser)
+admin.site.register(Subscription)
