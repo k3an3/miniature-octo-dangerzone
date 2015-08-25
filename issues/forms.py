@@ -12,6 +12,7 @@ class IssueForm(forms.ModelForm):
     description = forms.CharField(label="Description:<br>", widget=forms.widgets.Textarea())
     typeof = forms.ChoiceField(choices=models.TYPE_CHOICES, label="Issue Type")
     severity = forms.ChoiceField(choices=models.SEVERITY_CHOICES, label="Issue Severity")
+    song = forms.ChoiceField(choices=((song.id, song) for song in models.Song.objects.all()), label="Song")
 
     class Meta:
         model = models.Issue

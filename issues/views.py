@@ -62,13 +62,13 @@ class IssueCreate(generic.CreateView):
         return self.render_to_response({'form': form, 'page': 'issues',})
 
     def post(self, request, *args, **kwargs):
-        form = IssueForm(request.POST)
+        form = IssueForm(request.user, request.POST)
         if form.is_valid():
             form.instance.song = Song.objects.get(id=request.POST.get('song'))
             form.instance.reporter = request.user
             form.save()
             for user in get_editors():
-                new_issue_email(user.user.first_name, request.POST.get('title'), user.user.email, reverse('issues:detail', args=(form.id)))
+                new_issue_email(user.user.first_name, request.POST.get('title'), user.user.email, reverse('issues:detail', args=(form.instance.id)))
             return redirect('/')
         return self.render_to_response({'form': form, 'page': 'issues',})
 
