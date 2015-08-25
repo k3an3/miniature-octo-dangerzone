@@ -70,6 +70,7 @@ class IssueCreate(generic.CreateView):
             for user in get_editors():
                 new_issue_email(user.user.first_name, request.POST.get('title'), user.user.email, reverse('issues:detail', args=(form.id)))
             return redirect('/')
+        return self.render_to_response({'form': form, 'page': 'issues',})
 
 class SongCreate(generic.CreateView):
     model = Song

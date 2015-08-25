@@ -7,11 +7,11 @@ class IssueForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         super(IssueForm, self).__init__(*args, **kwargs)
         self.fields['song'] = forms.ModelChoiceField(queryset=models.Song.objects.all())
+
     title = forms.CharField(max_length=100)
     description = forms.CharField(label="Description:<br>", widget=forms.widgets.Textarea())
     typeof = forms.ChoiceField(choices=models.TYPE_CHOICES, label="Issue Type")
     severity = forms.ChoiceField(choices=models.SEVERITY_CHOICES, label="Issue Severity")
-    song = forms.ChoiceField(choices=((song.id, song) for song in models.Song.objects.all()), label="Song")
 
     class Meta:
         model = models.Issue
