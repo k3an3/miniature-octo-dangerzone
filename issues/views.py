@@ -13,6 +13,8 @@ from issues.models import *
 from issues.forms import *
 from issues.utils import *
 
+URL = 'https://mod.apalinode.com'
+
 class IndexView(generic.ListView):
     template_name = 'issues/index.html'
     context_object_name = 'issue_recent_list'
@@ -67,8 +69,9 @@ class IssueCreate(generic.CreateView):
             form.instance.song = Song.objects.get(id=request.POST.get('song'))
             form.instance.reporter = request.user
             form.save()
+            Subscription.objects.create(issue=form.instance, user=request.user)
             for user in get_editors():
-                new_issue_email(user.user.first_name, request.POST.get('title'), user.user.email, reverse('issues:detail', args=(form.instance.id)))
+                new_issue_email(user.user.first_name, user.user.email, URL + reverse('issues:detail', args=(form.instance.id,)))
             return redirect('/')
         return self.render_to_response({'form': form, 'page': 'issues',})
 
@@ -92,7 +95,8 @@ def comment(request, issue_id):
     text = request.POST.get('text')
     IssueComment.objects.create(user=request.user, text=text, issue=issue)
     for sub in Subscription.objects.filter(issue=issue):
-        issue_comment_email(sub.user.first_name, issue.title, sub.user.email, reverse('issues:detail', args=(issue.id,)), text)
+        issue_comment_email(sub.user.first_name, issue.title, sub.user.email, URL + reverse('issues:detail', args=(issue.id,)), text)
+    Subscription.objects.create(issue=issue, user=request.user)
     return redirect('/' + issue_id)
 
 def delete_comment(request, issue_id, comment_id):

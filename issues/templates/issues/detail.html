@@ -27,7 +27,9 @@ window.onload = function() {
         <p>Song: <i>{{ issue.song.title }}</i></p>
         {% endif %}
         <div class='description'><p>Description: <i>{{ issue.description }}</i></p></div>
+        {% if not issue.minutes == 0 and issue.seconds == 0 %}
         <p>Time: {{ issue.minutes }}:{{ issue.seconds | stringformat:"02d" }}</p>
+        {% endif %}
         {% if issue.song.url != '' %}
         <audio style="padding-top:20px;" controls id="song">
             <source src="{{ issue.song.url }}" type="audio/mpeg">
